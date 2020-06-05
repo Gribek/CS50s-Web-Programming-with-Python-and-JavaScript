@@ -5,7 +5,7 @@ from flask import Flask, session, render_template, request, redirect, url_for, \
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -60,3 +60,28 @@ def register():
         flash(error)
 
     return render_template('register.html')
+
+
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+    """Log user in"""
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        error = None
+
+        user = db.execute('SELECT * FROM users WHERE username=:username',
+                          {'username': username}).fetchone()
+        if user is None or not check_password_hash(user['password'], password):
+            error = 'Wrong username or password'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('login.html')
+
