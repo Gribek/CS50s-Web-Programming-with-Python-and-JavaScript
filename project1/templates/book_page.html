@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    bookReviewer Book Page
+{% endblock %}
+
+{% block content %}
+    <p>Author: {{ book.author }}</p>
+    <p>Title: {{ book.title }}</p>
+    <p>Year: {{ book.year }}</p>
+    <p>ISBN: {{ book.isbn }}</p>
+{% endblock %}

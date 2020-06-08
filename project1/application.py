@@ -54,6 +54,14 @@ def search():
     return render_template('search.html')
 
 
+@app.route('/book_page/<int:book_id>')
+def book_page(book_id):
+    """Display information about the selected book"""
+
+    book = db.execute('SELECT * FROM books WHERE id = :id', {'id': book_id})
+    return render_template('book_page.html', book=book.fetchone())
+
+
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     """Register user"""
