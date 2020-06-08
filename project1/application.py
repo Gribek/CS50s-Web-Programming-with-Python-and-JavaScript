@@ -28,6 +28,32 @@ def index():
     return 'Project 1: TODO'
 
 
+@app.route('/search', methods=('GET', 'POST'))
+def search():
+    """Search for the book"""
+
+    if request.method == 'POST':
+
+        phrase = request.form.get('search').lower()
+        column = request.form.get('column')
+        error = None
+        print(phrase, column)
+
+        if not phrase:
+            error = 'Enter search phrase'
+        elif column not in ['title', 'author', 'isbn']:
+            error = 'Choose search option'
+
+        if error is None:
+            sql = 'SELECT * FROM books where LOWER({}) LIKE :ph'.format(column)
+            books = db.execute(sql, {'column': column, 'ph': f'%{phrase}%'})
+            return render_template('search.html', books=books)
+
+        flash(error)
+
+    return render_template('search.html')
+
+
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     """Register user"""

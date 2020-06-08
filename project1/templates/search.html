@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    bookReviewer Search
+{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endwith %}
+    <form method="post">
+        <input type="text" name="search" autofocus placeholder="Search phrase">
+        <p>Search by:</p>
+        <label>
+            <input type="radio" name="column" value="isbn">ISBN
+        </label>
+        <label>
+            <input type="radio" name="column" value="author">Author
+        </label>
+        <label>
+            <input type="radio" name="column" value="title">Title
+        </label>
+        <button type="submit">Search</button>
+    </form>
+    {% if books %}
+    <ul>
+        {% for book in books %}
+            <li>{{ book.author }} {{ book.title }} {{ book.year }} ISBN: {{ book.isbn }}</li>
+            {% else %}
+            <p>No books found</p>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{%  endblock %}
