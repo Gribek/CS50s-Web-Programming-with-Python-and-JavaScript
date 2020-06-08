@@ -37,7 +37,6 @@ def search():
         phrase = request.form.get('search').lower()
         column = request.form.get('column')
         error = None
-        print(phrase, column)
 
         if not phrase:
             error = 'Enter search phrase'
