@@ -1,4 +1,3 @@
-import json
 import os
 import requests
 from flask import Flask, session, render_template, request, redirect, \
@@ -140,7 +139,7 @@ def goodreads_api(isbn):
                               {'id': book.id}).fetchone()[0]
     avr_score = db.execute('SELECT AVG(rating) FROM reviews where book_id=:id',
                            {'id': book.id}).fetchone()[0]
-    
+
     # Return the data in json format
     return jsonify({'title': book.title, 'author': book.author,
                     'year': book.year, 'isbn': book.isbn,
