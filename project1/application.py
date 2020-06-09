@@ -61,6 +61,47 @@ def book_page(book_id):
     return render_template('book_page.html', book=book.fetchone())
 
 
+@app.route('/add_review/<int:book_id>', methods=('GET', 'POST'))
+def add_review(book_id):
+    """Add review about the selected book"""
+
+    book = db.execute('SELECT * FROM books WHERE id = :id',
+                      {'id': book_id}).fetchone()
+
+    # Get user input
+    if request.method == 'POST':
+        rating = request.form.get('rating')
+        opinion = request.form.get('opinion')
+        error = None
+
+        # Check user input
+        if not rating:
+            error = 'Rate the book'
+        elif not opinion:
+            error = 'Write down your opinion'
+
+        # Check if user has not rated this book before
+        check_rewiev = db.execute(
+            'SELECT * FROM reviews WHERE book_id = :b_id AND user_id = :u_id',
+            {'b_id': book.id, 'u_id': session['user_id']}).fetchone()
+        if check_rewiev is not None:
+            error = 'You have already submitted review for this book'
+
+        # If no error save review to db
+        if error is None:
+            db.execute(
+                'INSERT INTO reviews (rating, opinion, user_id, book_id) '
+                'VALUES (:rating, :opinion, :user_id, :book_id)',
+                {'rating': rating, 'opinion': opinion,
+                 'user_id': session['user_id'], 'book_id': book.id})
+            db.commit()
+            return redirect(url_for('book_page', book_id=book.id))
+
+        flash(error)
+
+    return render_template('add_review.html', title=book.title)
+
+
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     """Register user"""
