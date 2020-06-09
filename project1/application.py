@@ -145,7 +145,7 @@ def goodreads_api(isbn):
     return jsonify({'title': book.title, 'author': book.author,
                     'year': book.year, 'isbn': book.isbn,
                     'review_count': review_count,
-                    'average_score': int(avr_score)})
+                    'average_score': float(avr_score)})
 
 
 @app.route('/register', methods=('GET', 'POST'))
