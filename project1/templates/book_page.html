@@ -9,4 +9,11 @@
     <p>Title: {{ book.title }}</p>
     <p>Year: {{ book.year }}</p>
     <p>ISBN: {{ book.isbn }}</p>
+
+    <h4>Reviews:</h4>
+    <ul>
+        {% for review in reviews %}
+            <li><div>{{ review.opinion }}<br> Book score: {{ review.rating }}</div></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

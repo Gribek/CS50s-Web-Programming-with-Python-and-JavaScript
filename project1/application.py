@@ -57,8 +57,11 @@ def search():
 def book_page(book_id):
     """Display information about the selected book"""
 
-    book = db.execute('SELECT * FROM books WHERE id = :id', {'id': book_id})
-    return render_template('book_page.html', book=book.fetchone())
+    book = db.execute('SELECT * FROM books WHERE id = :id',
+                      {'id': book_id}).fetchone()
+    reviews = db.execute('SELECT * FROM reviews WHERE book_id=:id',
+                         {'id': book_id}).fetchall()
+    return render_template('book_page.html', book=book, reviews=reviews)
 
 
 @app.route('/add_review/<int:book_id>', methods=('GET', 'POST'))
