@@ -11,7 +11,7 @@
         {% endfor %}
     {% endwith %}
     <form method="post">
-        <label>Rate "{{ title }}"
+        <label>Rate "{{ book.title }}"
             <input type="radio" value="5" name="rating">5
             <input type="radio" value="4" name="rating">4
             <input type="radio" value="3" name="rating">3
@@ -22,5 +22,6 @@
             <textarea name="opinion" rows="10" cols="100"></textarea>
         </label>
         <button type="submit">Add review</button>
+        <a href="{{ url_for('book_page', book_id=book.id) }}">Cancel</a>
     </form>
 {% endblock %}

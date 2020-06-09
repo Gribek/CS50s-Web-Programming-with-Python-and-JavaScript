@@ -28,7 +28,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route('/')
 def index():
-    return 'Project 1: TODO'
+    """Home page"""
+    return render_template('index.html')
 
 
 @app.route('/search', methods=('GET', 'POST'))
@@ -119,7 +120,7 @@ def add_review(book_id):
 
         flash(error)
 
-    return render_template('add_review.html', title=book.title)
+    return render_template('add_review.html', book=book)
 
 
 @app.route('/app/<string:isbn>')

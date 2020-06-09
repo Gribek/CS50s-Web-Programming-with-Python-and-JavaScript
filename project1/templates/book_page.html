@@ -13,7 +13,8 @@
     <p>Goodreads average rating: {{ goodreads[0] }}</p>
     <p>Goodreads number of ratings: {{ goodreads[1] }}</p>
     {% endif %}
-
+    <a href="{{ url_for('add_review', book_id=book.id) }}">Add review</a>
+    <a href="{{ url_for('search') }}">Go back to search</a>
     <h4>Reviews:</h4>
     <ul>
         {% for review in reviews %}
