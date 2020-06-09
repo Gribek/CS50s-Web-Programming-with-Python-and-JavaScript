@@ -1,11 +1,15 @@
+import json
 import os
-
+import requests
 from flask import Flask, session, render_template, request, redirect, \
     url_for, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import generate_password_hash, check_password_hash
+
+# Goodreads api key
+API_KEY = 'd9cHhV5POr5Gvm21S6Hmsw'
 
 app = Flask(__name__)
 
@@ -57,11 +61,22 @@ def search():
 def book_page(book_id):
     """Display information about the selected book"""
 
+    # Get information about the book form database
     book = db.execute('SELECT * FROM books WHERE id = :id',
                       {'id': book_id}).fetchone()
+
+    # Get reviews submitted by users
     reviews = db.execute('SELECT * FROM reviews WHERE book_id=:id',
                          {'id': book_id}).fetchall()
-    return render_template('book_page.html', book=book, reviews=reviews)
+
+    # Get data form goodreads api
+    result = requests.get('https://www.goodreads.com/book/review_counts.json',
+                          params={'key': API_KEY, 'isbns': book.isbn})
+    data = result.json()['books'][0]
+    goodreads = data['average_rating'], data['work_ratings_count']
+
+    return render_template('book_page.html', book=book, reviews=reviews,
+                           goodreads=goodreads)
 
 
 @app.route('/add_review/<int:book_id>', methods=('GET', 'POST'))

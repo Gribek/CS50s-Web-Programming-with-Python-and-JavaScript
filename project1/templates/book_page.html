@@ -9,11 +9,15 @@
     <p>Title: {{ book.title }}</p>
     <p>Year: {{ book.year }}</p>
     <p>ISBN: {{ book.isbn }}</p>
+    <p>Goodreads average rating: {{ goodreads[0] }}</p>
+    <p>Goodreads number of ratings: {{ goodreads[1] }}</p>
 
     <h4>Reviews:</h4>
     <ul>
         {% for review in reviews %}
             <li><div>{{ review.opinion }}<br> Book score: {{ review.rating }}</div></li>
+        {% else %}
+            No reviews submitted
         {% endfor %}
     </ul>
 {% endblock %}
