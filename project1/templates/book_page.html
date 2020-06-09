@@ -9,8 +9,10 @@
     <p>Title: {{ book.title }}</p>
     <p>Year: {{ book.year }}</p>
     <p>ISBN: {{ book.isbn }}</p>
+    {% if goodreads %}
     <p>Goodreads average rating: {{ goodreads[0] }}</p>
     <p>Goodreads number of ratings: {{ goodreads[1] }}</p>
+    {% endif %}
 
     <h4>Reviews:</h4>
     <ul>

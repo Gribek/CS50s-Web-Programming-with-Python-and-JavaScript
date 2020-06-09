@@ -2,7 +2,7 @@ import json
 import os
 import requests
 from flask import Flask, session, render_template, request, redirect, \
-    url_for, flash
+    url_for, flash, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -72,8 +72,11 @@ def book_page(book_id):
     # Get data form goodreads api
     result = requests.get('https://www.goodreads.com/book/review_counts.json',
                           params={'key': API_KEY, 'isbns': book.isbn})
-    data = result.json()['books'][0]
-    goodreads = data['average_rating'], data['work_ratings_count']
+    if result.status_code != 200:
+        goodreads = None
+    else:
+        data = result.json()['books'][0]
+        goodreads = data['average_rating'], data['work_ratings_count']
 
     return render_template('book_page.html', book=book, reviews=reviews,
                            goodreads=goodreads)
@@ -118,6 +121,31 @@ def add_review(book_id):
         flash(error)
 
     return render_template('add_review.html', title=book.title)
+
+
+@app.route('/app/<string:isbn>')
+def goodreads_api(isbn):
+    """Return data about the selected book in json format"""
+
+    # Get book data form db
+    book = db.execute('SELECT * FROM books WHERE isbn=:isbn',
+                      {'isbn': isbn}).fetchone()
+
+    # Make sure book exists in database
+    if book is None:
+        return jsonify({'error': 'ISBN not in database'}), 404
+
+    # Get information about reviews from db
+    review_count = db.execute('SELECT COUNT(*) FROM reviews where book_id=:id',
+                              {'id': book.id}).fetchone()[0]
+    avr_score = db.execute('SELECT AVG(rating) FROM reviews where book_id=:id',
+                           {'id': book.id}).fetchone()[0]
+    
+    # Return the data in json format
+    return jsonify({'title': book.title, 'author': book.author,
+                    'year': book.year, 'isbn': book.isbn,
+                    'review_count': review_count,
+                    'average_score': int(avr_score)})
 
 
 @app.route('/register', methods=('GET', 'POST'))
