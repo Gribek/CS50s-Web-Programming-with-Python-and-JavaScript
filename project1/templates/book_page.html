@@ -5,22 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    <p>Author: {{ book.author }}</p>
-    <p>Title: {{ book.title }}</p>
-    <p>Year: {{ book.year }}</p>
-    <p>ISBN: {{ book.isbn }}</p>
-    {% if goodreads %}
-    <p>Goodreads average rating: {{ goodreads[0] }}</p>
-    <p>Goodreads number of ratings: {{ goodreads[1] }}</p>
-    {% endif %}
-    <a href="{{ url_for('add_review', book_id=book.id) }}">Add review</a>
-    <a href="{{ url_for('search') }}">Go back to search</a>
-    <h4>Reviews:</h4>
-    <ul>
+    <div class="list-group col-lg-4 col-md-6 col-sm-8 col-12">
+        <div class="list-group-item">Author: {{ book.author }}</div>
+        <div class="list-group-item">Title: {{ book.title }}</div>
+        <div class="list-group-item">Year: {{ book.year }}</div>
+        <div class="list-group-item">ISBN: {{ book.isbn }}</div>
+        {% if goodreads %}
+        <div class="list-group-item">Goodreads average rating: {{ goodreads[0] }}</div>
+        <div class="list-group-item">Goodreads number of ratings: {{ goodreads[1] }}</div>
+        {% endif %}
+    </div>
+    <div style="margin: 20px">
+        <a class="btn btn-primary" href="{{ url_for('add_review', book_id=book.id) }}">Add review</a>
+        <a class="btn btn-primary" href="{{ url_for('search') }}">Go back to search</a>
+    </div>
+    <h4 style="margin-top: 40px">Reviews:</h4>
+    <div class="list-group col-lg-8 col-md-12">
         {% for review in reviews %}
-            <li><div>{{ review.opinion }}<br> Book score: {{ review.rating }}</div></li>
+            <div class="list-group-item"><span style="color: darkorchid">Review: </span>{{ review.opinion }}<br> <span style="color: darkorchid">Book score:</span> {{ review.rating }}</div>
         {% else %}
-            No reviews submitted
+            <p><b>No reviews submitted</b></p>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

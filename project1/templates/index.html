@@ -6,10 +6,10 @@
 
 {% block content %}
     {% if not session['user_id'] %}
-        <a href="{{ url_for('register') }}">Sign up</a>
-        <a href="{{ url_for('login') }}">Sign in</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}">Sign up</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Sign in</a>
     {% else %}
-        <a href="{{ url_for('search') }}">Search for a book</a>
-        <a href="{{ url_for('logout') }}">Sign out</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('search') }}">Search for a book</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">Sign out</a>
     {% endif %}
 {% endblock %}
