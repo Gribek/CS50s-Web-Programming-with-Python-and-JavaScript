@@ -38,15 +38,18 @@ def search():
 
     if request.method == 'POST':
 
+        # Get user input
         phrase = request.form.get('search').lower()
         column = request.form.get('column')
         error = None
 
+        # Check user input
         if not phrase:
             error = 'Enter search phrase'
         elif column not in ['title', 'author', 'isbn']:
             error = 'Choose search option'
 
+        # Search for books that match the query
         if error is None:
             sql = 'SELECT * FROM books where LOWER({}) LIKE :ph'.format(column)
             books = db.execute(sql, {'column': column, 'ph': f'%{phrase}%'})
@@ -152,6 +155,7 @@ def goodreads_api(isbn):
 def register():
     """Register user"""
 
+    # Get user input
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -159,6 +163,7 @@ def register():
 
         error = None
 
+        # Check user input
         if not username:
             error = 'Username is required'
         elif not password:
@@ -169,13 +174,14 @@ def register():
                         {'username': username}).fetchone() is not None:
             error = f'Username {username} already exists'
 
+        # Create new user if no error occurred
         if error is None:
             db.execute('INSERT INTO users (username, password) '
                        'VALUES (:username, :password)',
                        {'username': username,
                         'password': generate_password_hash(password)})
             db.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
 
         flash(error)
 
@@ -186,16 +192,19 @@ def register():
 def login():
     """Log user in"""
 
+    # Get user input
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
         error = None
 
+        # Make sure that username and password match
         user = db.execute('SELECT * FROM users WHERE username=:username',
                           {'username': username}).fetchone()
         if user is None or not check_password_hash(user['password'], password):
             error = 'Wrong username or password'
 
+        # Log in user
         if error is None:
             session.clear()
             session['user_id'] = user['id']
@@ -208,5 +217,6 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """Log user out"""
     session.clear()
     return redirect(url_for('index'))
