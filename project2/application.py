@@ -10,6 +10,9 @@ socketio = SocketIO(app)
 # Maximum number of messages stored per channel
 CHANNEL_MAX_MESSAGES = 100
 
+# List of all available channels
+channels = []
+
 
 class Channel:
     """Represents a single channel"""
@@ -47,4 +50,4 @@ class Message:
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', channels=channels)

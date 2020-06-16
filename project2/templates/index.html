@@ -18,6 +18,13 @@
     </section>
     <section id="channels">
         <h4>List of channels:</h4>
+        <ul>
+        {% for channel in channels %}
+            <li>{{ channel }}</li>
+        {% else %}
+            No channels available
+        {% endfor %}
+        </ul>
     </section>
 </body>
 </html>
