@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} - Create channel {% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endwith %}
+
+    <form method="post">
+    <label>Name of the channel:
+        <input id="new_channel" type="text" name="channel_name" autofocus autocomplete="off">
+    </label>
+        <button type="submit">Create channel</button>
+        <a href="{{ url_for('index') }}">Cancel</a>
+    </form>
+{% endblock %}

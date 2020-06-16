@@ -11,6 +11,7 @@
         </form>
     </section>
     <section id="channels">
+        <a href="{{ url_for('new_channel') }}">New channel</a>
         <h4>List of channels:</h4>
         <ul>
         {% for channel in channels %}
