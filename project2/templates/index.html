@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> ChatApp </title>
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 <body>
-$END$
+    <h2>Welcome to ChatApp</h2>
+    <section id="introduction" hidden>
+        <form id="form" method="post">
+            <label>Enter your name:
+                <input type="text" name="name" autocomplete="off" autofocus>
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+    <section id="channels">
+        <h4>List of channels:</h4>
+    </section>
 </body>
 </html>
