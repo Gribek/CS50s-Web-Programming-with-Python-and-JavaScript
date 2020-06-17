@@ -103,5 +103,14 @@ def channel_view(channel_name):
 
 @socketio.on('send message')
 def message(data):
+    """Receive new message and broadcast it with timestamp"""
+
+    save_message(data)
     emit('announce message', data, broadcast=True)
 
+
+def save_message(data):
+    """Store message for channel"""
+
+    channel = channels[data['channel']]
+    channel.add_message(author=data['user'], text=data['message'])

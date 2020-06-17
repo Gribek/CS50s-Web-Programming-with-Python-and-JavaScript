@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('announce message', data => {
         if (data.channel === channel_name) {
             const li = document.createElement('li');
-        li.innerHTML = data.message;
+        li.innerHTML = `${data.user}: ${data.message}`;
         document.querySelector('#messages').append(li);
         }
     })

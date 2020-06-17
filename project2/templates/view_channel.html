@@ -11,7 +11,7 @@
         <ul id="messages">
             {% for message in channel.messages %}
                 <li>
-                    {{ message }}
+                    {{ message.author }}: {{ message.text }}
                 </li>
             {% endfor %}
         </ul>
