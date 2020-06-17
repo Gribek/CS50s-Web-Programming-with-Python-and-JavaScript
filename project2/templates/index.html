@@ -2,7 +2,9 @@
 
 {% block channels %}
     <section id="channels">
-        <a href="{{ url_for('new_channel') }}">New channel</a>
+        <nav id="nav">
+            <a href="{{ url_for('new_channel') }}">New channel</a>
+        </nav>
         <h4>List of channels:</h4>
         <ul>
         {% for channel in channels %}

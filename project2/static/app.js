@@ -18,4 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
     }
+
+    // Add link to the last visited channel, if any
+    let channel = localStorage.getItem('channel')
+    if (channel) {
+        const link =  document.createElement('a');
+        link.setAttribute('href', `/channel/${channel}`);
+        link.innerHTML = 'Last channel';
+        document.querySelector('#nav').append(link);
+    }
 });
