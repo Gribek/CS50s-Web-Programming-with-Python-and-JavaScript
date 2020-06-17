@@ -4,9 +4,13 @@
 
 {% block channels %}
     <section id="channels">
-        Channel: {{ channel }}
+        <h4>Channel: {{ channel }}</h4>
         {% for message in channel.messages %}
             {{ message }}
         {% endfor %}
+    <form method="post" action="{{ url_for('message') }}">
+        <input id="message" type="text" placeholder="Type a message..." autocomplete="off" autofocus>
+        <button type="submit">Send</button>
+    </form>
     </section>
 {% endblock %}
