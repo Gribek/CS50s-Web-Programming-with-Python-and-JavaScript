@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %} - Create channel {% endblock %}
+{% block script_io %}
+    <script type="text/javascript" src="{{ url_for('static', filename='io.js') }}"></script>
+{% endblock %}
 
 {% block channels %}
     <section id="channels">

@@ -105,4 +105,4 @@ def channel_view(channel_name):
 def message(data):
     text = data['message']
     emit('announce message', {'message': text}, broadcast=True)
-    print(text)
+
