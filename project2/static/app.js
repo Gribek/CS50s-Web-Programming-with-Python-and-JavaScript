@@ -3,9 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let intro_section = document.querySelector('#introduction')
     let channels_section = document.querySelector('#channels')
 
-    // Connect to websocket
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-
     // Check if user name is in local storage, hide channels section if not
     if (!localStorage.getItem('name')) {
         intro_section.hidden = false;
@@ -20,4 +17,29 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
     }
-})
+
+    // Connect to websocket
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+    // Configure submit button
+    socket.on('connect', () => {
+
+        // Emit send message event
+        document.querySelector('#form_message').onsubmit = () => {
+            const input = document.querySelector('#text_message')
+            const message = input.value;
+            input.value = '';
+            if (message.length > 0) {
+                socket.emit('send message', {'message': message});
+            }
+            return false;
+        };
+    });
+
+    // Add message to channel when announce vote event
+    socket.on('announce message', data => {
+        const li = document.createElement('li');
+        li.innerHTML = data.message;
+        document.querySelector('#messages').append(li);
+    })
+});

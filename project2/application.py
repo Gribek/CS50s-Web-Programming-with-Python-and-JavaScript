@@ -101,7 +101,8 @@ def channel_view(channel_name):
         return render_template('view_channel.html', channel=channel)
 
 
-@app.route('/message', methods=['post'])
-def message():
-    """Save new message"""
-    pass
+@socketio.on('send message')
+def message(data):
+    text = data['message']
+    emit('announce message', {'message': text}, broadcast=True)
+    print(text)
