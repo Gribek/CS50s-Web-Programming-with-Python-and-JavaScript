@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, \
+    abort
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ socketio = SocketIO(app)
 CHANNEL_MAX_MESSAGES = 100
 
 # List of all available channels
-channels = []
+channels = {}
 
 
 class Channel:
@@ -25,9 +26,9 @@ class Channel:
     def __str__(self):
         return self.__name
 
-    @property
-    def name(self):
-        return self.__name
+    # @property
+    # def name(self):
+    #     return self.__name
 
     def add_message(self, author, text):
         """Save new message"""
@@ -55,7 +56,7 @@ class Message:
 @app.route('/')
 def index():
     """Home page"""
-    return render_template('index.html', channels=channels)
+    return render_template('index.html', channels=channels.values())
 
 
 @app.route('/channel', methods=('get', 'post'))
@@ -71,13 +72,13 @@ def new_channel():
         # Form validation
         if not channel_name:
             error = 'Enter channel name'
-        elif channel_name in [ch.name for ch in channels]:
+        elif channel_name in channels.keys():
             error = 'Channel already exists'
 
         # Create channel if no error
         if error is None:
             ch = Channel(channel_name)
-            channels.append(ch)
+            channels[f'{channel_name}'] = ch
 
             return redirect(url_for('index'))
 
@@ -85,3 +86,15 @@ def new_channel():
         flash(error)
 
     return render_template('new_channel.html')
+
+
+@app.route('/channel/<string:channel_name>')
+def channel_view(channel_name):
+    """Display channel with all saved messages"""
+
+    try:
+        channel = channels[channel_name]
+    except KeyError:
+        abort(404)
+    else:
+        return render_template('view_channel.html', channel=channel)

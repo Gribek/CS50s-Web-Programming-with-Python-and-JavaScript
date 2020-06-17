@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} - Create channel {% endblock %}
+
+{% block channels %}
+    <section id="channels">
+        Channel: {{ channel }}
+        {% for message in channel.messages %}
+            {{ message }}
+        {% endfor %}
+    </section>
+{% endblock %}
