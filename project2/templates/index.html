@@ -1,15 +1,6 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <h2>Welcome to ChatApp</h2>
-    <section id="introduction" hidden>
-        <form id="form" method="post">
-            <label>Enter your name:
-                <input type="text" name="name" autocomplete="off" autofocus>
-            </label>
-            <button type="submit">Submit</button>
-        </form>
-    </section>
+{% block channels %}
     <section id="channels">
         <a href="{{ url_for('new_channel') }}">New channel</a>
         <h4>List of channels:</h4>
@@ -22,5 +13,3 @@
         </ul>
     </section>
 {% endblock %}
-</body>
-</html>

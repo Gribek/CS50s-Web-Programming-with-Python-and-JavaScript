@@ -7,7 +7,16 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 <body>
-    {% block content %}
+    <h2>Welcome to ChatApp</h2>
+    <section id="introduction" hidden>
+        <form id="form" method="post">
+            <label>Enter your name:
+                <input type="text" name="name" autocomplete="off" autofocus>
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+    {% block channels %}
     {% endblock %}
 </body>
 </html>
