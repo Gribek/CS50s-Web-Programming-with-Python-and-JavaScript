@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from flask import Flask, render_template, request, flash, redirect, url_for, \
     abort
@@ -98,3 +99,9 @@ def channel_view(channel_name):
         abort(404)
     else:
         return render_template('view_channel.html', channel=channel)
+
+
+@app.route('/message', methods=['post'])
+def message():
+    """Save new message"""
+    pass
