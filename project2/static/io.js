@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    let channel_name = document.querySelector('h4').dataset.channel;
+    localStorage.setItem('channel', channel_name);
+
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -12,16 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = input.value;
             input.value = '';
             if (message.length > 0) {
-                socket.emit('send message', {'message': message});
+                socket.emit('send message', {
+                    'message': message,
+                    'user': localStorage.getItem('name'),
+                    'channel': channel_name
+                });
             }
             return false;
         };
     });
 
-    // Add message to channel when announce vote event
+    // Add message to channel when announce message event
     socket.on('announce message', data => {
-        const li = document.createElement('li');
+        if (data.channel === channel_name) {
+            const li = document.createElement('li');
         li.innerHTML = data.message;
         document.querySelector('#messages').append(li);
+        }
     })
 });

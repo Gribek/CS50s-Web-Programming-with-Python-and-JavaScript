@@ -7,6 +7,7 @@
 
 {% block channels %}
     <section id="channels">
+        <h4 data-channel="{{ channel }}">Channel: {{ channel }}</h4>
         <ul id="messages">
             {% for message in channel.messages %}
                 <li>
@@ -14,7 +15,6 @@
                 </li>
             {% endfor %}
         </ul>
-        <h4>Channel: {{ channel }}</h4>
 
         <form id="form_message">
             <input id="text_message" type="text" placeholder="Type a message..." autocomplete="off" autofocus>
