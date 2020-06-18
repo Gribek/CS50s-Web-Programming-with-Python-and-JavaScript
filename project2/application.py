@@ -31,11 +31,11 @@ class Channel:
     # def name(self):
     #     return self.__name
 
-    def add_message(self, author, text):
+    def add_message(self, author, text, timestamp):
         """Save new message"""
 
         # Create and save new message
-        m = Message(author, text)
+        m = Message(author, text, timestamp)
         self.messages.append(m)
 
         # Check if the messages limit has been reached
@@ -49,9 +49,10 @@ class Channel:
 class Message:
     """Represents a single message"""
 
-    def __init__(self, author, text):
+    def __init__(self, author, text, timestamp):
         self.author = author
         self.text = text
+        self.timestamp = timestamp
 
 
 @app.route('/')
@@ -105,12 +106,23 @@ def channel_view(channel_name):
 def message(data):
     """Receive new message and broadcast it with timestamp"""
 
+    # Add date and time to message data
+    date = datetime.now().strftime("%d %B %Y, %H:%M")
+    data['timestamp'] = date
+
+    # Save message
     save_message(data)
+
+    # Broadcast message to users
     emit('announce message', data, broadcast=True)
 
 
 def save_message(data):
     """Store message for channel"""
 
+    # Get the selected channel
     channel = channels[data['channel']]
-    channel.add_message(author=data['user'], text=data['message'])
+
+    # Save new message
+    channel.add_message(author=data['user'], text=data['message'],
+                        timestamp=data['timestamp'])
