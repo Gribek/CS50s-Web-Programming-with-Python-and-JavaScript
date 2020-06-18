@@ -9,11 +9,6 @@
     <section id="channels">
         <h4 data-channel="{{ channel }}">Channel: {{ channel }}</h4>
         <ul id="messages">
-            {% for message in channel.messages %}
-                <li>
-                    {{ message.timestamp }}; {{ message.author }}: {{ message.text }}
-                </li>
-            {% endfor %}
         </ul>
 
         <form id="form_message">

@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 from flask import Flask, render_template, request, flash, redirect, url_for, \
-    abort
+    abort, jsonify
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -111,6 +111,23 @@ def channel_view(channel_name):
         return render_template('view_channel.html', channel=channel)
 
 
+@app.route('/messages', methods=['post'])
+def get_messages():
+    """Return all messages for the channel"""
+
+    # Get requested channel
+    channel_name = request.form.get('channel')
+    try:
+        channel = channels[channel_name]
+    except KeyError:
+        return jsonify({'success': False})
+
+    # Get all messages
+    data = [m.__dict__ for m in channel.messages]
+
+    return jsonify({'success': True, 'messages': data})
+
+
 @socketio.on('send message')
 def message(data):
     """Receive new message and broadcast it with timestamp"""
@@ -120,8 +137,7 @@ def message(data):
     data['timestamp'] = date
 
     # Save message and add id to data
-    message_id = save_message(data)
-    data['id'] = message_id
+    data['_Message__id'] = save_message(data)
 
     # Broadcast message to users
     emit('announce message', data, broadcast=True)
@@ -135,6 +151,6 @@ def save_message(data):
 
     # Save new message
     message_id = channel.add_message(
-        author=data['user'], text=data['message'], timestamp=data['timestamp'])
+        author=data['author'], text=data['text'], timestamp=data['timestamp'])
 
     return message_id
