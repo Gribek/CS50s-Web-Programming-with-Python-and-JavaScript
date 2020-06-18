@@ -45,7 +45,7 @@ class Channel:
         """Delete selected message"""
 
         for m in self.messages:
-            if m.id == message_id:
+            if m.id == int(message_id):
                 self.messages.remove(m)
                 break
 
@@ -103,9 +103,8 @@ def new_channel():
 def channel_view(channel_name):
     """Display channel with all saved messages"""
 
-    try:
-        channel = channels[channel_name]
-    except KeyError:
+    channel = get_channel(channel_name)
+    if channel is None:
         abort(404)
     else:
         return render_template('view_channel.html', channel=channel)
@@ -117,15 +116,31 @@ def get_messages():
 
     # Get requested channel
     channel_name = request.form.get('channel')
-    try:
-        channel = channels[channel_name]
-    except KeyError:
+    channel = get_channel(channel_name)
+    if channel is None:
         return jsonify({'success': False})
 
     # Get all messages
     data = [m.__dict__ for m in channel.messages]
 
     return jsonify({'success': True, 'messages': data})
+
+
+@app.route('/delete', methods=['delete'])
+def delete_message():
+    """Delete message"""
+
+    # Get requested channel
+    channel_name = request.form.get('channel')
+    channel = get_channel(channel_name)
+    if channel is None:
+        return jsonify({'success': False})
+
+    # Delete selected message
+    message_id = request.form.get('message_id')
+    channel.delete_message(message_id)
+
+    return jsonify({'success': True})
 
 
 @socketio.on('send message')
@@ -154,3 +169,14 @@ def save_message(data):
         author=data['author'], text=data['text'], timestamp=data['timestamp'])
 
     return message_id
+
+
+def get_channel(channel_name):
+    """Return the selected channel"""
+
+    try:
+        channel = channels[channel_name]
+    except KeyError:
+        channel = None
+
+    return channel

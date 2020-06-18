@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save name of the channel in local storage
     localStorage.setItem('channel', channel_name);
 
+    // Adding messages
     function add_message(data) {
         const li = document.createElement('li');
         li.innerHTML = `${data.timestamp}; ${data.author}: ${data.text} `;
@@ -14,10 +15,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.innerHTML = 'Delete';
             button.dataset.messageId = data._Message__id;
+            button.addEventListener('click', delete_message)
             li.appendChild(button);
         }
         document.querySelector('#messages').append(li);
     }
+
+    // Deleting messages
+    function delete_message(event) {
+
+        // Selected button
+        const element = event.target;
+
+        // Creating new request
+        const request = new XMLHttpRequest();
+        request.open('delete', '/delete');
+        request.onload = () => {
+            const data = JSON.parse(request.responseText);
+            if (data.success) {
+                element.parentElement.remove();
+            }
+        }
+
+        // Add data to send with request form
+        const form = new FormData();
+        form.append('channel', channel_name);
+        form.append('message_id', element.dataset.messageId);
+
+        // Send request
+        request.send(form);
+    }
+
 
     // Loading messages
     // Create new request
@@ -31,9 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) {
             data.messages.forEach(add_message)
         }
-        else {
-
-        }
     }
 
     // Add data to send with request form
@@ -42,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Send request
     request.send(form);
+
 
     // SocketIO - messages sending/receiving
     // Connect to websocket
