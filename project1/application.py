@@ -126,7 +126,7 @@ def add_review(book_id):
     return render_template('add_review.html', book=book)
 
 
-@app.route('/app/<string:isbn>')
+@app.route('/api/<string:isbn>')
 def goodreads_api(isbn):
     """Return data about the selected book in json format"""
 
