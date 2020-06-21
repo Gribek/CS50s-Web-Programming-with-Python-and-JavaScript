@@ -9,5 +9,5 @@ application.py - main code of flask application
 import.py - script importing data from a csv file to the database  
 templates - base.html is jijna2 base template, other .html files are children templates designed for all subpages of the application  
 .gitignore - excludes from git repository virtualenv files, IDE setting files, etc  
-books.csv - data file
-requirements.txt - required packages
+books.csv - data file  
+requirements.txt - required packages  
