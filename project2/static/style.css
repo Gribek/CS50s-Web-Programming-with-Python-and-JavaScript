@@ -10,11 +10,13 @@
 #introduction {
   text-align: center; }
 
-#name-form-container {
+#name-form-container, #channel-form-container {
   display: inline-block;
-  color: green; }
+  color: green;
+  width: 300px; }
 
-#inputName {
+input[type="text"]:focus {
+  border-color: green;
   color: green; }
 
 #channels {

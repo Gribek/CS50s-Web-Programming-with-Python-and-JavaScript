@@ -6,16 +6,21 @@
     <section id="channels">
         {% with messages = get_flashed_messages() %}
             {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
                 {{ message }}
+                </div>
             {% endfor %}
         {% endwith %}
 
         <form method="post">
-        <label>Name of the channel:
-            <input id="new_channel" type="text" name="channel_name" autofocus autocomplete="off">
-        </label>
-            <button type="submit">Create channel</button>
-            <a href="{{ url_for('index') }}">Cancel</a>
+            <div id="channel-form-container" class="shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="form-group">
+                    <label for="new_channel">Name of the channel:</label>
+                    <input class="form-control" id="new_channel" type="text" name="channel_name" autofocus autocomplete="off">
+                </div>
+                <button class="btn btn-success" type="submit">Create channel</button>
+                <a class="btn btn-danger" href="{{ url_for('index') }}">Cancel</a>
+            </div>
         </form>
     </section>
 {% endblock %}

@@ -16,12 +16,14 @@ $info-color: orange;
     text-align: center;
 }
 
-#name-form-container {
+#name-form-container, #channel-form-container {
     display: inline-block;
     color: $text-color;
+    width: 300px;
 }
 
-#inputName {
+input[type="text"]:focus {
+    border-color: $text-color;
     color: $text-color;
 }
 
