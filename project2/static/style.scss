@@ -1,0 +1,23 @@
+$text-color: blue;
+
+.title {
+    color: $text-color;
+    font-style: italic;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+#introduction {
+    text-align: center;
+}
+
+#name-form-container {
+    display: inline-block;
+    color: $text-color;
+}
+
+#inputName {
+    color: $text-color;
+}

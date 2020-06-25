@@ -1,0 +1,19 @@
+.title {
+  color: blue;
+  font-style: italic;
+  font-size: 30px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 20px; }
+
+#introduction {
+  text-align: center; }
+
+#name-form-container {
+  display: inline-block;
+  color: blue; }
+
+#inputName {
+  color: blue; }
+
+/*# sourceMappingURL=style.css.map */

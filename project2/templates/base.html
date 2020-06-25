@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title> ChatApp {% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
     {% block script_io %}  {% endblock %}
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 </head>
 <body>
-    <h2>Welcome to ChatApp</h2>
+    <h2 class="title">Welcome to ChatApp</h2>
     <section id="introduction" hidden>
-        <form id="form" method="post">
-            <label>Enter your name:
-                <input type="text" name="name" autocomplete="off" autofocus>
-            </label>
-            <button type="submit">Submit</button>
-        </form>
+        <div id="name-form-container" class="shadow-lg p-3 mb-5 bg-white rounded">
+            <form id="form" method="post">
+                <div class="form-group">
+                    <label for="inputName">Enter your name:</label>
+                    <input class="form-control" id="inputName" type="text" name="name" autocomplete="off" autofocus>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
     </section>
     {% block channels %}
     {% endblock %}
