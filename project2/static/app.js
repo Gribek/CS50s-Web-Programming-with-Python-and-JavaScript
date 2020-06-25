@@ -12,9 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // When user submit name save it to the local storage and display channels section
         document.querySelector('#form').onsubmit = () => {
             let name = intro_section.querySelector('input').value
-            localStorage.setItem('name', name);
-            intro_section.hidden = true;
-            channels_section.hidden = false;
+            if (name.length > 0) {
+                localStorage.setItem('name', name);
+                intro_section.hidden = true;
+                channels_section.hidden = false;
+            }
             return false;
         }
     }
