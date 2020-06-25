@@ -2,3 +2,5 @@
 __pycache__
 env
 flask_session
+.sass-cache/
+*.css.map
