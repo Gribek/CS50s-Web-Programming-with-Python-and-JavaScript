@@ -1,7 +1,8 @@
 .title {
-  color: blue;
+  color: darkgreen;
   font-style: italic;
-  font-size: 30px;
+  font-weight: bold;
+  font-size: 34px;
   text-align: center;
   padding-top: 10px;
   padding-bottom: 20px; }
@@ -11,9 +12,23 @@
 
 #name-form-container {
   display: inline-block;
-  color: blue; }
+  color: green; }
 
 #inputName {
-  color: blue; }
+  color: green; }
+
+#channels {
+  text-align: center; }
+
+#nav {
+  margin: 20px; }
+
+#channels-container {
+  color: green;
+  width: 400px;
+  display: inline-block; }
+
+.info {
+  color: orange; }
 
 /*# sourceMappingURL=style.css.map */

@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (channel) {
         const link =  document.createElement('a');
         link.setAttribute('href', `/channel/${channel}`);
-        link.innerHTML = 'Last channel';
+        link.className += 'btn btn-success btn-sm';
+        link.innerHTML = 'Last visited channel';
         document.querySelector('#nav').append(link);
     }
 });

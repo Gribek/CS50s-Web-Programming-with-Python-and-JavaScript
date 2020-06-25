@@ -1,9 +1,12 @@
-$text-color: blue;
+$title-color: darkgreen;
+$text-color: green;
+$info-color: orange;
 
 .title {
-    color: $text-color;
+    color: $title-color;
     font-style: italic;
-    font-size: 30px;
+    font-weight: bold;
+    font-size: 34px;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 20px;
@@ -20,4 +23,22 @@ $text-color: blue;
 
 #inputName {
     color: $text-color;
+}
+
+#channels {
+    text-align: center;
+}
+
+#nav {
+    margin: 20px;
+}
+
+#channels-container {
+    color: $text-color;
+    width: 400px;
+    display: inline-block;
+}
+
+.info {
+    color: $info-color;
 }

@@ -3,15 +3,18 @@
 {% block channels %}
     <section id="channels">
         <nav id="nav">
-            <a href="{{ url_for('new_channel') }}">New channel</a>
+            <a class="btn btn-success btn-sm" href="{{ url_for('new_channel') }}">Create new channel</a>
         </nav>
-        <h4>List of channels:</h4>
-        <ul>
-        {% for channel in channels %}
-            <li><a href="{{ url_for('channel_view', channel_name=channel) }}">{{ channel }}</a></li>
-        {% else %}
-            No channels available
-        {% endfor %}
-        </ul>
+        <div id="channels-container">
+            <h3>List of channels:</h3>
+            <div class="list-group">
+                {% for channel in channels %}
+                    <a class="list-group-item list-group-item-action list-group-item-success" href="{{ url_for('channel_view', channel_name=channel) }}">{{ channel }}</a>
+                {% else %}
+                    <span class="info">No channels available</span>
+                {% endfor %}
+            </div>
+        </div>
+
     </section>
 {% endblock %}
