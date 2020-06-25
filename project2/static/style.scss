@@ -1,7 +1,52 @@
+// Text color variables
 $title-color: darkgreen;
 $text-color: green;
 $info-color: orange;
 
+// Sections
+#introduction {
+    text-align: center;
+}
+
+#channels {
+    text-align: center;
+}
+
+// Containers
+%container {
+  color: $text-color;
+  display: inline-block;
+}
+
+#name-form-container, #channel-form-container {
+    @extend %container;
+    width: 300px;
+}
+
+#channel-messages-container {
+    color: $text-color;
+}
+
+#channels-container {
+    @extend %container;
+    width: 400px;
+}
+
+@media (min-width: 800px) {
+  #message-form-container {
+    display: inline-block;
+    width: 60vw;
+  }
+}
+
+@media (max-width: 799px) {
+  #message-form-container {
+    display: inline-block;
+    width: 90vw;
+  }
+}
+
+// Other selectors
 .title {
     color: $title-color;
     font-style: italic;
@@ -12,35 +57,24 @@ $info-color: orange;
     padding-bottom: 20px;
 }
 
-#introduction {
-    text-align: center;
-}
-
-#name-form-container, #channel-form-container {
-    display: inline-block;
-    color: $text-color;
-    width: 300px;
-}
-
 input[type="text"]:focus {
     border-color: $text-color;
     color: $text-color;
-}
-
-#channels {
-    text-align: center;
 }
 
 #nav {
     margin: 20px;
 }
 
-#channels-container {
-    color: $text-color;
-    width: 400px;
-    display: inline-block;
-}
 
 .info {
     color: $info-color;
+}
+
+#text_message::placeholder {
+    color: $text-color;
+}
+
+#channel_name {
+    margin-bottom: 15px;
 }

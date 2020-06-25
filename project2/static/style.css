@@ -1,3 +1,30 @@
+#introduction {
+  text-align: center; }
+
+#channels {
+  text-align: center; }
+
+#name-form-container, #channel-form-container, #channels-container {
+  color: green;
+  display: inline-block; }
+
+#name-form-container, #channel-form-container {
+  width: 300px; }
+
+#channel-messages-container {
+  color: green; }
+
+#channels-container {
+  width: 400px; }
+
+@media (min-width: 800px) {
+  #message-form-container {
+    display: inline-block;
+    width: 60vw; } }
+@media (max-width: 799px) {
+  #message-form-container {
+    display: inline-block;
+    width: 90vw; } }
 .title {
   color: darkgreen;
   font-style: italic;
@@ -7,30 +34,20 @@
   padding-top: 10px;
   padding-bottom: 20px; }
 
-#introduction {
-  text-align: center; }
-
-#name-form-container, #channel-form-container {
-  display: inline-block;
-  color: green;
-  width: 300px; }
-
 input[type="text"]:focus {
   border-color: green;
   color: green; }
 
-#channels {
-  text-align: center; }
-
 #nav {
   margin: 20px; }
 
-#channels-container {
-  color: green;
-  width: 400px;
-  display: inline-block; }
-
 .info {
   color: orange; }
+
+#text_message::placeholder {
+  color: green; }
+
+#channel_name {
+  margin-bottom: 15px; }
 
 /*# sourceMappingURL=style.css.map */

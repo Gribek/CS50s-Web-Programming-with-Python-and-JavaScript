@@ -7,14 +7,20 @@
 
 {% block channels %}
     <section id="channels">
-        <h4 data-channel="{{ channel }}">Channel: {{ channel }}</h4>
-        <ul id="messages">
-        </ul>
+        <div id="channel-messages-container">
+            <h4 id="channel_name" data-channel="{{ channel }}">Channel: {{ channel }}</h4>
+            <ul id="messages">
+            </ul>
 
-        <form id="form_message">
-            <input id="text_message" type="text" placeholder="Type a message..." autocomplete="off" autofocus>
-            <button type="submit">Send</button>
-        </form>
-    <a href="{{ url_for('index') }}">Leave channel</a>
+            <form id="form_message">
+                <div id="message-form-container" class="shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="text_message" placeholder="Type a message..." autocomplete="off" autofocus>
+                    </div>
+                    <button class="btn btn-success" type="submit">Send message</button>
+                </div>
+            </form>
+            <a class="btn btn-danger" href="{{ url_for('index') }}">Leave channel</a>
+        </div>
     </section>
 {% endblock %}
