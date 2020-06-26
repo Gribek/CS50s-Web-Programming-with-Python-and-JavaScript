@@ -11,41 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function add_message(data) {
         const div = document.createElement('div');
         div.innerHTML = `<span class="date">${data.timestamp}</span><br><span class="author">${data.author}</span>: ${data.text}`;
+        div.dataset.messageId = data._Message__id;
         if (data.author === user_name) {
             const button = document.createElement('button');
             button.innerHTML = 'X';
             button.className += 'delete';
-            button.dataset.messageId = data._Message__id;
-            button.addEventListener('click', delete_message)
+            // button.dataset.messageId = data._Message__id;
+            button.addEventListener('click', emit_delete)
             div.appendChild(button);
         }
         document.querySelector('#messages').append(div);
         window.scrollTo(0,document.body.scrollHeight);
     }
 
+
     // Deleting messages
-    function delete_message(event) {
-
-        // Selected button
-        const element = event.target;
-
-        // Creating new request
-        const request = new XMLHttpRequest();
-        request.open('delete', '/delete');
-        request.onload = () => {
-            const data = JSON.parse(request.responseText);
-            if (data.success) {
-                element.parentElement.remove();
-            }
-        }
-
-        // Add data to send with request form
-        const form = new FormData();
-        form.append('channel', channel_name);
-        form.append('message_id', element.dataset.messageId);
-
-        // Send request
-        request.send(form);
+    function delete_message(message_id) {
+        const element = document.querySelector(`[data-message-id="${message_id}"]`)
+        element.remove();
     }
 
 
@@ -99,5 +82,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.channel === channel_name) {
             add_message(data);
         }
-    })
+    });
+
+    // Emit delete message event
+    function emit_delete(event) {
+
+        // Selected button
+        const element = event.target;
+
+        // Emit delete message event
+        socket.emit('delete message', {
+            'channel': channel_name,
+            'message_id': element.parentElement.dataset.messageId
+        });
+    }
+
+    // Delete message from channel when announce delete event
+    socket.on('announce delete', data => {
+        if (data.channel === channel_name) {
+            delete_message(data.message_id);
+        }
+    });
 });

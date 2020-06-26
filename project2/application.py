@@ -126,23 +126,6 @@ def get_messages():
     return jsonify({'success': True, 'messages': data})
 
 
-@app.route('/delete', methods=['delete'])
-def delete_message():
-    """Delete message"""
-
-    # Get requested channel
-    channel_name = request.form.get('channel')
-    channel = get_channel(channel_name)
-    if channel is None:
-        return jsonify({'success': False})
-
-    # Delete selected message
-    message_id = request.form.get('message_id')
-    channel.delete_message(message_id)
-
-    return jsonify({'success': True})
-
-
 @socketio.on('send message')
 def message(data):
     """Receive new message and broadcast it with timestamp"""
@@ -156,6 +139,22 @@ def message(data):
 
     # Broadcast message to users
     emit('announce message', data, broadcast=True)
+
+
+@socketio.on('delete message')
+def delete_message(data):
+    """Receive request to delete message and broadcast it"""
+
+    # Get requested channel
+    channel_name = data['channel']
+    channel = get_channel(channel_name)
+
+    # Delete selected message
+    message_id = data['message_id']
+    channel.delete_message(message_id)
+
+    # Broadcast delete message to users
+    emit('announce delete', data, broadcast=True)
 
 
 def save_message(data):
