@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adding messages
     function add_message(data) {
         const div = document.createElement('div');
-        div.innerHTML = `${data.timestamp}; ${data.author}: ${data.text} `;
+        div.innerHTML = `<span class="date">${data.timestamp}</span><br><span class="author">${data.author}</span>: ${data.text}`;
         if (data.author === user_name) {
             const button = document.createElement('button');
             button.innerHTML = 'X';
