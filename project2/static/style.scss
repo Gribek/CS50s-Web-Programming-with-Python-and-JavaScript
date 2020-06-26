@@ -14,8 +14,8 @@ $info-color: orange;
 
 // Containers
 %container {
-  color: $text-color;
-  display: inline-block;
+    color: $text-color;
+    display: inline-block;
 }
 
 #name-form-container, #channel-form-container {
@@ -23,25 +23,24 @@ $info-color: orange;
     width: 300px;
 }
 
-#channel-messages-container {
-    color: $text-color;
-}
-
 #channels-container {
     @extend %container;
     width: 400px;
 }
 
-@media (min-width: 800px) {
-  #message-form-container {
+#channel-messages-container {
+    color: $text-color;
     display: inline-block;
+}
+
+@media (min-width: 800px) {
+  #channel-messages-container {
     width: 60vw;
   }
 }
 
 @media (max-width: 799px) {
-  #message-form-container {
-    display: inline-block;
+  #channel-messages-container {
     width: 90vw;
   }
 }
@@ -77,4 +76,23 @@ input[type="text"]:focus {
 
 #channel_name {
     margin-bottom: 15px;
+}
+
+#messages div {
+    list-style-type: none;
+    border: 2px solid $title-color;
+    border-radius: 10px;
+    background-color: #e5f5db;
+    margin: 10px;
+    padding: 10px;
+}
+
+.delete {
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 7px;
+    color:white;
+    background-color: #dc3545;
+    border: none;
 }

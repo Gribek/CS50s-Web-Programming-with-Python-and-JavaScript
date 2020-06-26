@@ -11,19 +11,18 @@
 #name-form-container, #channel-form-container {
   width: 300px; }
 
-#channel-messages-container {
-  color: green; }
-
 #channels-container {
   width: 400px; }
 
+#channel-messages-container {
+  color: green;
+  display: inline-block; }
+
 @media (min-width: 800px) {
-  #message-form-container {
-    display: inline-block;
+  #channel-messages-container {
     width: 60vw; } }
 @media (max-width: 799px) {
-  #message-form-container {
-    display: inline-block;
+  #channel-messages-container {
     width: 90vw; } }
 .title {
   color: darkgreen;
@@ -49,5 +48,22 @@ input[type="text"]:focus {
 
 #channel_name {
   margin-bottom: 15px; }
+
+#messages div {
+  list-style-type: none;
+  border: 2px solid darkgreen;
+  border-radius: 10px;
+  background-color: #e5f5db;
+  margin: 10px;
+  padding: 10px; }
+
+.delete {
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 7px;
+  color: white;
+  background-color: #dc3545;
+  border: none; }
 
 /*# sourceMappingURL=style.css.map */

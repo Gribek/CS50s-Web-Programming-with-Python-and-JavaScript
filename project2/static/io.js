@@ -9,16 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adding messages
     function add_message(data) {
-        const li = document.createElement('li');
-        li.innerHTML = `${data.timestamp}; ${data.author}: ${data.text} `;
+        const div = document.createElement('div');
+        div.innerHTML = `${data.timestamp}; ${data.author}: ${data.text} `;
         if (data.author === user_name) {
             const button = document.createElement('button');
-            button.innerHTML = 'Delete';
+            button.innerHTML = 'X';
+            button.className += 'delete';
             button.dataset.messageId = data._Message__id;
             button.addEventListener('click', delete_message)
-            li.appendChild(button);
+            div.appendChild(button);
         }
-        document.querySelector('#messages').append(li);
+        document.querySelector('#messages').append(div);
     }
 
     // Deleting messages
