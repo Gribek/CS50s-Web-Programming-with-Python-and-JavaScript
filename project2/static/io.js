@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.appendChild(button);
         }
         document.querySelector('#messages').append(div);
+        window.scrollTo(0,document.body.scrollHeight);
     }
 
     // Deleting messages

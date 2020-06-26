@@ -75,4 +75,7 @@ input[type="text"]:focus {
   float: left;
   font-size: 12px; }
 
+.leave_channel {
+  margin: 20px; }
+
 /*# sourceMappingURL=style.css.map */
