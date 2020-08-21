@@ -15,7 +15,8 @@
             {{ form.content.errors }}
             <textarea style="height: 70vh" name="content" placeholder="Type entry text..."></textarea>
         </div>
-            <input type="submit" value="Save">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a class="btn btn-primary" href="{% url 'index' %}">Cancel</a>
         {% csrf_token %}
     </form>
 {% endblock %}
