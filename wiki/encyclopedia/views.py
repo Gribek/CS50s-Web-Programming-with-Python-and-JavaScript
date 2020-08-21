@@ -1,10 +1,12 @@
 from random import choice
 
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from markdown2 import Markdown
 
 from . import util
+from encyclopedia.forms import AddEntryForm
 
 
 def index(request):
@@ -40,3 +42,18 @@ def random_page(request):
     """Display random wiki entry."""
     random_entry = choice(util.list_entries())
     return entry_page(request, random_entry)
+
+
+def new_entry(request):
+    """Add new entry to the wiki"""
+    if request.method == 'POST':
+        form = AddEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            util.save_entry(title, form.cleaned_data['content'])
+            return redirect(
+                reverse('entry_page', kwargs={'entry_title': title}))
+    else:
+        form = AddEntryForm()
+
+    return render(request, 'encyclopedia/new_entry.html', {'form': form})
