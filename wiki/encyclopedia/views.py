@@ -24,6 +24,18 @@ def entry_page(request, entry_title):
     return render(request, 'encyclopedia/entry_page.html', context=ctx)
 
 
+def search(request):
+    """Find entry in encyclopedia."""
+    query = request.GET.get('query')
+    entries = util.list_entries()
+    if query in entries:
+        return entry_page(request, entry_title=query)
+    else:
+        ctx = {'query': query,
+               'entries': [e for e in entries if query.lower() in e.lower()]}
+        return render(request, 'encyclopedia/search.html', context=ctx)
+
+
 def random_page(request):
     """Display random wiki entry."""
     random_entry = choice(util.list_entries())
