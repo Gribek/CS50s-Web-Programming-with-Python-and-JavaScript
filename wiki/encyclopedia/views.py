@@ -6,12 +6,14 @@ from . import util
 
 
 def index(request):
+    """List all wiki entries."""
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
 
 
 def entry_page(request, entry_title):
+    """Display single wiki entry."""
     entry = util.get_entry(entry_title)
     if entry is None:
         raise Http404
