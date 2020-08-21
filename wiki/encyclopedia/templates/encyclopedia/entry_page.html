@@ -6,4 +6,5 @@
 
 {% block body %}
     {{ content|safe }}
+    <a class="btn btn-primary" href="{% url 'edit_entry' title %}">Edit entry</a>
 {% endblock %}

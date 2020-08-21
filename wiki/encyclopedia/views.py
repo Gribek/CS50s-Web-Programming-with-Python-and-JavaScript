@@ -6,7 +6,7 @@ from django.urls import reverse
 from markdown2 import Markdown
 
 from . import util
-from encyclopedia.forms import AddEntryForm
+from encyclopedia.forms import AddEntryForm, EditEntryForm
 
 
 def index(request):
@@ -57,3 +57,19 @@ def new_entry(request):
         form = AddEntryForm()
 
     return render(request, 'encyclopedia/new_entry.html', {'form': form})
+
+
+def edit_entry(request, entry_title):
+    """Edit selected entry."""
+    if request.method == 'POST':
+        form = EditEntryForm(request.POST)
+        if form.is_valid():
+            util.save_entry(entry_title, form.cleaned_data['content'])
+            return redirect(
+                reverse('entry_page', kwargs={'entry_title': entry_title}))
+    else:
+        form = EditEntryForm()
+        form.initial['content'] = util.get_entry(entry_title)
+
+    return render(request, 'encyclopedia/edit_entry.html',
+                  {'form': form, 'title': entry_title})

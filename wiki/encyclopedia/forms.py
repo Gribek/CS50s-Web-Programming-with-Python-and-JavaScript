@@ -13,3 +13,7 @@ class AddEntryForm(forms.Form):
         if title in list_entries():
             self.add_error('title', 'Entry with such title already exist!')
         return cleaned_data
+
+
+class EditEntryForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea)
