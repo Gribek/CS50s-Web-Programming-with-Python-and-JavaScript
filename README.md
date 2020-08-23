@@ -1,6 +1,6 @@
 # CS50s-Web-Programming-with-Python-and-JavaScript
 
-#### Couse scope: 
+#### Course scope: 
 * Git
 * Python
 * Flask, Django
