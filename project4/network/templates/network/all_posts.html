@@ -1,0 +1,24 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+    <h3>All Posts</h3>
+    <div>
+        <form method="post">
+            <h4>New Post</h4>
+            <p>
+                {{ form.text.errors }}
+                {{ form.text }}
+            </p>
+            <input type="submit" value="Post">
+            {% csrf_token %}
+        </form>
+    </div>
+    <div>
+        {% for post in posts %}
+            <p>{{ post.user }}</p>
+            <p>{{ post.text }}</p>
+            <p>{{ post.date }}</p>
+            <p>{{ post.likes }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
