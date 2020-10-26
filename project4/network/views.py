@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User
+from .models import User, Post
+from .forms import PostForm
 
 
 def index(request):
@@ -22,7 +23,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("all_posts"))
         else:
             return render(request, "network/login.html", {
                 "message": "Invalid username and/or password."
@@ -61,3 +62,20 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+def all_posts(request):
+    posts = Post.objects.all().order_by('-date')
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return redirect('all_posts')
+        else:
+            return render(request, 'network/all_posts.html',
+                          {'form': form, 'posts': posts})
+    else:
+        form = PostForm()
+        return render(request, 'network/all_posts.html',
+                      {'form': form, 'posts': posts})
