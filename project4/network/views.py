@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Following
 from .forms import PostForm
 
 
@@ -82,5 +82,13 @@ def all_posts(request):
 
 
 def profile(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    return render(request, 'network/user_profile.html', {'user': user})
+    current_user = request.user
+    profile_user = get_object_or_404(User, pk=user_id)
+    ctx = {
+        'user': profile_user,
+        'posts': profile_user.post_set.order_by('-date'),
+        'my_profile': profile_user == current_user,
+        'following': Following.objects.filter(
+            follower=current_user, following=profile_user).exists()
+    }
+    return render(request, 'network/user_profile.html', context=ctx)
