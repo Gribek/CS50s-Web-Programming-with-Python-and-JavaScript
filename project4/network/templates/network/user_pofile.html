@@ -1,0 +1,8 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    {{ user.username }}
+    {{ user.email }}
+    Following: {{ user.following.count }}
+    Followers {{ user.followers.count }}
+{% endblock %}
