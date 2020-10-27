@@ -83,4 +83,4 @@ def all_posts(request):
 
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    return render(request, 'network/user_pofile.html', {'user': user})
+    return render(request, 'network/user_profile.html', {'user': user})
