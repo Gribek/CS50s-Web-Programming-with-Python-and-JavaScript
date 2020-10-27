@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .models import User, Post
@@ -79,3 +79,8 @@ def all_posts(request):
         form = PostForm()
         return render(request, 'network/all_posts.html',
                       {'form': form, 'posts': posts})
+
+
+def profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    return render(request, 'network/user_pofile.html', {'user': user})
