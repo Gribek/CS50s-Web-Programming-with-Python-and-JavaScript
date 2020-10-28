@@ -83,7 +83,7 @@ def all_posts(request):
 
 def following(request):
     following_users = [u.following for u in request.user.following.all()]
-    posts = Post.objects.filter(user__in=following_users)
+    posts = Post.objects.filter(user__in=following_users).order_by('-date')
     return render(request, 'network/following.html', {'posts': posts})
 
 
