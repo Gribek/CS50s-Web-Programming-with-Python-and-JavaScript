@@ -3,11 +3,24 @@
 {% block body %}
     <h3>Following Posts</h3>
     <div>
-        {% for post in posts %}
+        {% for post in page_object %}
             <p><a href="{% url 'profile' post.user.id %}">{{ post.user }}</a></p>
             <p>{{ post.text }}</p>
             <p>{{ post.date }}</p>
             <p>{{ post.likes }}</p>
         {% endfor %}
+    </div>
+    <div>
+        {% if page_object.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_object.previous_page_number }}">previous</a>
+        {% endif %}
+        <span>
+            Page {{ page_object.number }} of {{ page_object.paginator.num_pages }}.
+        </span>
+        {% if page_object.has_next %}
+            <a href="?page={{ page_object.next_page_number }}">next</a>
+            <a href="?page={{ page_object.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
     </div>
 {% endblock %}

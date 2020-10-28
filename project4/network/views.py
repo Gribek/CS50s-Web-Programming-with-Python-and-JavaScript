@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -66,6 +67,9 @@ def register(request):
 
 def all_posts(request):
     posts = Post.objects.all().order_by('-date')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -74,17 +78,21 @@ def all_posts(request):
             return redirect('all_posts')
         else:
             return render(request, 'network/all_posts.html',
-                          {'form': form, 'posts': posts})
+                          {'form': form, 'page_object': page_object})
     else:
         form = PostForm()
         return render(request, 'network/all_posts.html',
-                      {'form': form, 'posts': posts})
+                      {'form': form, 'page_object': page_object})
 
 
 def following(request):
     following_users = [u.following for u in request.user.following.all()]
     posts = Post.objects.filter(user__in=following_users).order_by('-date')
-    return render(request, 'network/following.html', {'posts': posts})
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+    return render(request, 'network/following.html',
+                  {'page_object': page_object})
 
 
 def profile(request, user_id):
