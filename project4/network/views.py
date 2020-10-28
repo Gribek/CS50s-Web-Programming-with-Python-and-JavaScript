@@ -81,6 +81,12 @@ def all_posts(request):
                       {'form': form, 'posts': posts})
 
 
+def following(request):
+    following_users = [u.following for u in request.user.following.all()]
+    posts = Post.objects.filter(user__in=following_users)
+    return render(request, 'network/following.html', {'posts': posts})
+
+
 def profile(request, user_id):
     current_user = request.user
     profile_user = get_object_or_404(User, pk=user_id)
