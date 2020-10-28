@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Following
 from .forms import PostForm
 
 
@@ -82,5 +82,29 @@ def all_posts(request):
 
 
 def profile(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    return render(request, 'network/user_profile.html', {'user': user})
+    current_user = request.user
+    profile_user = get_object_or_404(User, pk=user_id)
+    ctx = {
+        'profile_user': profile_user,
+        'posts': profile_user.post_set.order_by('-date'),
+        'my_profile': profile_user == current_user,
+        'following': Following.objects.filter(
+            follower=current_user, following=profile_user).exists()
+    }
+    return render(request, 'network/user_profile.html', context=ctx)
+
+
+def follow(request, user_id):
+    try:
+        Following.objects.create(follower=request.user,
+                                 following=get_object_or_404(User, pk=user_id))
+    except IntegrityError:
+        return HttpResponse(status=404)
+    return HttpResponse(status=200)
+
+
+def unfollow(request, user_id):
+    obj = Following.objects.filter(follower=request.user, following=user_id)
+    if obj.exists():
+        obj.delete()
+    return HttpResponse(status=200)
