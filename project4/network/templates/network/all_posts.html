@@ -19,6 +19,9 @@
             <p>{{ post.text }}</p>
             <p>{{ post.date }}</p>
             <p>{{ post.likes }}</p>
+            {% if user == post.user %}
+                <button data-post-id="{{ post.id }}">Edit</button>
+            {% endif %}
         {% endfor %}
     </div>
     <div>
