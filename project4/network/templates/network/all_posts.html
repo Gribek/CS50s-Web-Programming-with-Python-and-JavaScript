@@ -15,7 +15,7 @@
     </div>
     <div>
         {% for post in posts %}
-            <p>{{ post.user }}</p>
+            <p><a href="{% url 'profile' post.user.id %}">{{ post.user }}</a></p>
             <p>{{ post.text }}</p>
             <p>{{ post.date }}</p>
             <p>{{ post.likes }}</p>
