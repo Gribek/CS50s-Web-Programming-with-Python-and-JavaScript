@@ -9,7 +9,7 @@
 {% block body %}
     {% if user.is_authenticated and not my_profile %}
         <p>
-        <button data-user-id="{{ user.id }}">
+        <button id="follow" data-user-id="{{ profile_user.id }}">
             {% if following %}
                 Unfollow
             {% else %}
@@ -18,10 +18,10 @@
         </button>
     {% endif %}
     <p>
-        {{ user.username }}
-        {{ user.email }}
-        Following: {{ user.following.count }}
-        Followers {{ user.followers.count }}
+        {{ profile_user.username }}
+        {{ profile_user.email }}
+        Following: {{ profile_user.following.count }}
+        Followers {{ profile_user.followers.count }}
     <p>
     <h4>Posts:</h4>
     {% for post in posts %}
