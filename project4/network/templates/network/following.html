@@ -4,10 +4,19 @@
     <h3>Following Posts</h3>
     <div>
         {% for post in page_object %}
-            <p><a href="{% url 'profile' post.user.id %}">{{ post.user }}</a></p>
+            <p><a href="{% url 'profile' post.user.id %}">{{ post.user }}</a>
+            </p>
             <p>{{ post.text }}</p>
             <p>{{ post.date }}</p>
-            <p>{{ post.likes }}</p>
+            <p>
+                <span>
+                    {% if user.id not in post.get_users_liking %}
+                        <button>Like</button>
+                    {% else %}
+                        <button>Unlike</button>
+                    {% endif %}
+                </span> {{ post.likes }}
+            </p>
         {% endfor %}
     </div>
     <div>
@@ -20,7 +29,8 @@
         </span>
         {% if page_object.has_next %}
             <a href="?page={{ page_object.next_page_number }}">next</a>
-            <a href="?page={{ page_object.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_object.paginator.num_pages }}">last
+                &raquo;</a>
         {% endif %}
     </div>
 {% endblock %}
