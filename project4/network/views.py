@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.db import IntegrityError
@@ -121,4 +123,18 @@ def unfollow(request, user_id):
     obj = Following.objects.filter(follower=request.user, following=user_id)
     if obj.exists():
         obj.delete()
+    return HttpResponse(status=200)
+
+
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user.id != post.user.id:
+        return HttpResponse(status=403)
+
+    data = json.load(request)
+    if data == post.text:
+        return HttpResponse(status=200)
+
+    post.text = data
+    post.save()
     return HttpResponse(status=200)
