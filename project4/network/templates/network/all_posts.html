@@ -21,16 +21,15 @@
     </div>
     <div>
         {% for post in page_object %}
-            <span>
+            <div>
                 <p><a href="{% url 'profile' post.user.id %}">{{ post.user }}</a></p>
                 <p class="text">{{ post.text }}</p>
                 <p>{{ post.date }}</p>
                 <p>{{ post.likes }}</p>
                 {% if user == post.user %}
-                    <button class="edit"
-                            data-post-id="{{ post.id }}">Edit</button>
+                    <button class="edit" data-post-id="{{ post.id }}">Edit</button>
                 {% endif %}
-            </span>
+            </div>
         {% endfor %}
     </div>
     <div>
