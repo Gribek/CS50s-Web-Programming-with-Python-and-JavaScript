@@ -12,6 +12,9 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.IntegerField(default=0)
 
+    def get_users_liking(self):
+        return [like.user.id for like in self.who_likes.all()]
+
 
 class Following(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE,
