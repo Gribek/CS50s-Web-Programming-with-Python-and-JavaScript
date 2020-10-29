@@ -100,9 +100,13 @@ def following(request):
 def profile(request, user_id):
     current_user = request.user
     profile_user = get_object_or_404(User, pk=user_id)
+    posts = profile_user.post_set.order_by('-date')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
     ctx = {
         'profile_user': profile_user,
-        'posts': profile_user.post_set.order_by('-date'),
+        'page_object': page_object,
         'my_profile': profile_user == current_user,
         'following': Following.objects.filter(
             follower=current_user, following=profile_user).exists()
