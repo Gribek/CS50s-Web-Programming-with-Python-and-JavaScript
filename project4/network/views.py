@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from .models import User, Post, Following
+from .models import User, Post, Following, Like
 from .forms import PostForm
 
 
@@ -137,4 +137,28 @@ def edit_post(request, post_id):
 
     post.text = data
     post.save()
+    return HttpResponse(status=200)
+
+
+def like(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    current_user = request.user
+    if post.user == current_user:
+        return HttpResponse(status=404)
+    try:
+        Like.objects.create(user=current_user, post=post)
+    except IntegrityError:
+        return HttpResponse(status=404)
+    post.likes += 1
+    post.save()
+    return HttpResponse(status=200)
+
+
+def unlike(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    obj = Like.objects.filter(user=request.user, post=post)
+    if obj.exists():
+        obj.delete()
+        post.likes -= 1
+        post.save()
     return HttpResponse(status=200)
