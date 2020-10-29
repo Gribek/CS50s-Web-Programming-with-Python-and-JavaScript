@@ -28,3 +28,6 @@ class Like(models.Model):
                              related_name='liking')
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name='who_likes')
+
+    class Meta:
+        unique_together = ['user', 'post']
